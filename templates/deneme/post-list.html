@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Post list
+{% endblock %}
+{% block ust_icerik %}
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+{% endblock %}
+
+{% block icerik %}
+    <form class="navbar-form navbar-left pull-right">
+        {% for field in form %}
+            <div class="form-group">
+                {{ field }}
+                {% for error in field.errors %}
+                    <span class="text-danger"><b>{{ error }}</b></span>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-default">Ara</button>
+    </form>
+    <h1 class="page-header">POST LIST</h1>
+    <div class="col-lg-11 pull-center">
+        {% for posts in posts %}
+            <h2><a href="{% url 'post-detail' posts.pk %}">{{ posts.title }}</a></h2>
+            <p class="caption"><span class="glyphicon glyphicon-pencil"></span><b>Yazar:</b> <a
+                    href="{% url 'user-profile' posts.user.username %}">{{ posts.user.username }}</a></p>
+            <p style="font-size: large;margin-top:20px;">{{ posts.text |safe| truncatewords:20 }}</p>
+        {% empty %}
+            <p>İçerik Bulunamadı</p>
+        {% endfor %}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="col-lg-8 col-lg-offset-2">
+                    {% if posts.has_other_pages %}
+                        <ul class="pagination">
+                            {% if posts.has_previous %}
+                                <li><a href="?page={{ posts.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in posts.paginator.page_range %}
+                                {% if posts.number == i %}
+                                    <li class="active"><span>{{ i }}<span class="sr-only">(current)</span> </span></li>
+                                {% else %}
+                                    <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }} </a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if posts.has_next %}
+                                <li><a href="?page={{ posts.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&raquo;</a>
+                                </li>
+                            {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

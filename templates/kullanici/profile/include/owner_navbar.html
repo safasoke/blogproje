@@ -1,0 +1,6 @@
+<ul class="nav nav-pills" style="padding-left: 170px; padding-right: 170px">
+    <li role="presentation"><a href="{% url 'user-profile' user.username %}">Gönderiler</a></li>
+    <li role="presentation"><a href="{% url 'user-aboutme' user.username %}">Hakkımda</a></li>
+    <li role="presentation"><a href="{% url 'user-settings' %}">Ayarlar</a></li>
+    <li role="presentation"><a href="{% url 'user-password-change' %}">Şifremi Değiştir</a></li>
+</ul>
