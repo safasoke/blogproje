@@ -12,7 +12,6 @@ class RegisterForm(forms.ModelForm):
     password_confirm = forms.CharField(min_length=6, required=True, label='Şifre Tekrar',
                                        widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     sex = forms.ChoiceField(required=True, label='Cinsiyet', choices=UserProfile.SEX)
-
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'sex', 'username', 'email', 'password', 'password_confirm']
